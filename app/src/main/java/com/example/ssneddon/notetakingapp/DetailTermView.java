@@ -56,6 +56,8 @@ public class DetailTermView extends AppCompatActivity {
             textView_DetailTerm_End.setText(termEnd);
             textView_DetailTerm_Start.setText(termStart);
 
+            c.close();
+
             setupDeleteButton();
 
         }
@@ -84,7 +86,7 @@ public class DetailTermView extends AppCompatActivity {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(DetailTermView.this);
         alertBuilder.setMessage("You cannot delete this term because it has courses attached to it.  Please delete all courses attached to this term before attempting to delete this term.")
                 .setCancelable(false)
-                .setPositiveButton("I'm a dingus", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -102,7 +104,7 @@ public class DetailTermView extends AppCompatActivity {
         if (c.getCount() <= 0){
             noAttachedCourses = true;
         }
-
+        c.close();
         return noAttachedCourses;
     }
 }

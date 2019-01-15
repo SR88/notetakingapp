@@ -2,6 +2,7 @@ package com.example.ssneddon.notetakingapp.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,15 @@ public class CustomCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        Log.d("newView", "New View created");
         // R.layout.all_terms_single is the custom xml for each row
         return cursorInflator.inflate(R.layout.all_terms_single, parent, false);
+
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        Log.d("bindView", "View is bound");
         TextView textTermName = view.findViewById(R.id.textTermName);
         TextView textTermStart = view.findViewById(R.id.textTermStart);
         TextView textTermEnd = view.findViewById(R.id.textTermEnd);
