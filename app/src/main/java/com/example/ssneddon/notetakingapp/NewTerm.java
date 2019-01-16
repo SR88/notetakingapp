@@ -28,7 +28,7 @@ public class NewTerm extends AppCompatActivity {
     static final int START_DILOG_ID = 0;
     static final int END_DILOG_ID = 1;
     TextView textView_EndDate, textView_StartDate;
-    String stringDateStart, stringDateEnd;
+    String stringDateStart, stringDateEnd, stringPickerStart, stringPickerEnd;
     Date dateStart, dateEnd;
 
 
@@ -111,9 +111,7 @@ public class NewTerm extends AppCompatActivity {
             month_Start = month + 1;
             day_Start = dayOfMonth;
 
-            Toast.makeText(NewTerm.this, "Term Start: " + year_Start + "/" + month_Start + "/" + day_Start, Toast.LENGTH_SHORT).show();
-
-            textView_StartDate.setText(year_Start + "/" + month_Start + "/" + day_Start);
+            textView_StartDate.setText(month_Start + "/" + day_Start + "/" + year_Start);
 
             stringDateStart = (String) textView_StartDate.getText();
         }
@@ -127,9 +125,7 @@ public class NewTerm extends AppCompatActivity {
             month_End = month + 1;
             day_End = dayOfMonth;
 
-            Toast.makeText(NewTerm.this, "Term End: " + year_End + "/" + month_End + "/" + day_End, Toast.LENGTH_SHORT).show();
-
-            textView_EndDate.setText(year_End + "/" + month_End + "/" + day_End);
+            textView_EndDate.setText(month_End + "/" + day_End + "/" + year_End);
 
             stringDateEnd = (String) textView_EndDate.getText();
         }
@@ -155,7 +151,7 @@ public class NewTerm extends AppCompatActivity {
 
         // if both dates are not null check to make sure it is a logic period of time
         if (stringDateEnd != null && stringDateStart != null){
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
             try {
                 dateStart = formatter.parse(stringDateStart);
                 dateEnd = formatter.parse(stringDateEnd);
@@ -183,8 +179,8 @@ public class NewTerm extends AppCompatActivity {
 
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.TERM_NAME, String.valueOf(editText_NewTermName.getText()));
-        values.put(DBOpenHelper.TERM_START, dateStart.toString());
-        values.put(DBOpenHelper.TERM_END, dateEnd.toString());
+        values.put(DBOpenHelper.TERM_START, stringDateStart);
+        values.put(DBOpenHelper.TERM_END, stringDateEnd);
         getContentResolver().insert(DBProvider.CONTENT_URI_TERMS, values);
 
         finish();
@@ -201,7 +197,7 @@ public class NewTerm extends AppCompatActivity {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(NewTerm.this);
         alertBuilder.setMessage(errorsText)
                 .setCancelable(false)
-                .setPositiveButton("I'm a dingus", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
