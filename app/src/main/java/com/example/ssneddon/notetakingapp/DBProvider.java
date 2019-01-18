@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -132,7 +133,6 @@ public class DBProvider extends ContentProvider {
     public Uri insert(Uri uri,  ContentValues values) {
         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-
         switch (URI_MATCHER.match(uri)){
             case TERMS:
                 long rowId = db.insertOrThrow(DBOpenHelper.TABLE_TERM,null,values);
