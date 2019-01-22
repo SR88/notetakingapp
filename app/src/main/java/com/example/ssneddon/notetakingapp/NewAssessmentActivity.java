@@ -9,5 +9,8 @@ public class NewAssessmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_assessment);
+
+        getSupportActionBar().setTitle("Create an Assessment"); // set action bar title
+
     }
 }

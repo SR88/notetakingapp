@@ -12,7 +12,7 @@ public interface Consts {
     String RBR = " ) " ;
     String SEMICOL = " ; " ;
     String COMA = " , " ;
-    String TYPE_TEXT_DCTS = " DEFAULT CURRENT TIME STAMP " ;
+    String TYPE_TEXT_DCTS = " DEFAULT CURRENT_TIMESTAMP " ;
     String FK = " FOREIGN KEY " ;
     String REFS = " REFERENCES " ;
 }
