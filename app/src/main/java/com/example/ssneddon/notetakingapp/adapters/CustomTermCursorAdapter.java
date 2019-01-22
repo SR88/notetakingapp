@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import com.example.ssneddon.notetakingapp.R;
 
-public class CustomCursorAdapter extends CursorAdapter {
+public class CustomTermCursorAdapter extends CursorAdapter {
 
     private LayoutInflater cursorInflator;
 
-    public CustomCursorAdapter(Context context, Cursor c, int flags) {
+    public CustomTermCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
         cursorInflator = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);

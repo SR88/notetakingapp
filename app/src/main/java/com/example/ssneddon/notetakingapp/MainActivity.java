@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.example.ssneddon.notetakingapp.adapters.CustomCursorAdapter;
+import com.example.ssneddon.notetakingapp.adapters.CustomTermCursorAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null
         );
-        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(
+        CustomTermCursorAdapter customCursorAdapter = new CustomTermCursorAdapter(
                 MainActivity.this,
                 cursor,
                 0
