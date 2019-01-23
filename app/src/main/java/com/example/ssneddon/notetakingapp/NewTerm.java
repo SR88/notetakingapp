@@ -53,6 +53,8 @@ public class NewTerm extends AppCompatActivity {
 
         startDateShowDialogOnClick();
         setupValidation();
+
+        // todo setup alert for term
     }
 
     // sets up both on click listeners for both start and end dates

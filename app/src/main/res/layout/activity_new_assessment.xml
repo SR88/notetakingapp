@@ -96,20 +96,7 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:gravity="center">
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Set Reminder Alert For Goal" />
-        </TableRow>
-
-        <TableRow
-            android:layout_margin="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_margin="4dp">
 
             <Button
                 android:id="@+id/button7"
@@ -129,11 +116,19 @@
         </TableRow>
 
         <TableRow
-            android:layout_margin="4dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:gravity="center">
 
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set reminders for dates" />
         </TableRow>
+
+
 
     </TableLayout>
 

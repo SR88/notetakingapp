@@ -78,4 +78,18 @@ public class DataBaseContract {
         };
     }
 
+    public static final class Note implements BaseColumns{
+        public static final String TABLE_NAME = "notes";
+
+        public static final String KEY = "_id";
+        public static final String NOTE = "notes_Note";
+        public static final String COURSE_ID = "course_id";
+
+        public static final String[] PROJECTION = new String []{
+                Note.KEY,
+                Note.NOTE,
+                Note.COURSE_ID
+        };
+    }
+
 }

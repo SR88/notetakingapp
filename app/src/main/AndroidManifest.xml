@@ -42,7 +42,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".NewAssessmentActivity"></activity>
+        <activity android:name=".NewAssessmentActivity" />
+        <activity android:name=".NoteEditorActivity"></activity>
     </application>
 
 </manifest>
