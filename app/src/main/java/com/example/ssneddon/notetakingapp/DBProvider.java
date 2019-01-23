@@ -20,7 +20,8 @@ public class DBProvider extends ContentProvider {
     private static final String PATH_TERMS = DBOpenHelper.TABLE_TERM;
     private static final String PATH_MENTORS = DBOpenHelper.TABLE_MENTOR;
     private static final String PATH_COURSES = DBOpenHelper.TABLE_COURSE;
-
+    private static final String PATH_NOTES = DBOpenHelper.TABLE_NOTES;
+    private static final String PATH_NOTES_UNBOUND = "notes_unbound";
 
     // create content URIs from the authority by appending path to database table
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORTIY + "/" + BASE_PATH);
@@ -30,7 +31,14 @@ public class DBProvider extends ContentProvider {
     // used to indicate that we are updating or looking an existing term
     public static final String CONTENT_TYPE_TERM = "Term";
 
+
+
     public static final Uri CONTENT_URI_COURSES = Uri.parse("content://" + AUTHORTIY + "/" + PATH_COURSES);
+
+    // for use in passing uri - see onCreate NoteEditorActivity
+    public static final String CONTENT_ITEM_TYPE = "CourseNote";
+    public static final Uri CONTENT_URI_NOTES = Uri.parse("content://" + AUTHORTIY + "/" + PATH_NOTES);
+    public static final Uri CONTENT_URI_NOTES_UNBOUND = Uri.parse("content://" + AUTHORTIY + "/" + PATH_NOTES_UNBOUND);
 
     // Constant to identify requested operation
     private static final int ALL_RECORDS = 1;     // give me the data
@@ -42,6 +50,9 @@ public class DBProvider extends ContentProvider {
     private static final int MENTORS_ID = 6;
     private static final int COURSES = 7;
     private static final int COURSES_ID = 8;
+    private static final int NOTES = 9;
+    private static final int NOTES_ID = 10;
+    private static final int NOTES_LIST = 11;
 
     // parses uri pattern matches content uris using wildcards
     // * matches a string of any valid characters of any length
@@ -57,6 +68,10 @@ public class DBProvider extends ContentProvider {
         URI_MATCHER.addURI(AUTHORTIY, PATH_MENTORS + "/#", MENTORS_ID);
         URI_MATCHER.addURI(AUTHORTIY, PATH_COURSES, COURSES);
         URI_MATCHER.addURI(AUTHORTIY, PATH_COURSES + "/#", COURSES_ID);
+        URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES, NOTES);
+        URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES + "/#", NOTES_ID);
+        URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES + "/#", NOTES_LIST);
+        URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES_UNBOUND + "/#", NOTES_LIST);
     }
 
     private SQLiteDatabase database;
@@ -99,6 +114,23 @@ public class DBProvider extends ContentProvider {
                 queryBuilder.setTables(DBOpenHelper.TABLE_MENTOR);
                 queryBuilder.appendWhere(DBOpenHelper.KEY_MENTOR + "=" +uri.getLastPathSegment());
                 break;
+
+            case NOTES:
+                queryBuilder.setTables(DBOpenHelper.TABLE_NOTES);
+                break;
+            case NOTES_ID:
+                queryBuilder.setTables(DBOpenHelper.TABLE_NOTES);
+                queryBuilder.appendWhere(DBOpenHelper.KEY_NOTE + "=" + uri.getLastPathSegment());
+                break;
+            case NOTES_LIST:
+                queryBuilder.setTables(DBOpenHelper.TABLE_NOTES);
+                String[] args = {String.valueOf(uri.getLastPathSegment())};
+                Cursor c = database.rawQuery(
+                        "SELECT ALL notes WHERE _id IN (?)", args
+                );
+                c.setNotificationUri(getContext().getContentResolver(), uri);
+                return c;
+
             default:
                 try {
                     throw new IllegalAccessException("Uknown URI: " + uri);
@@ -131,17 +163,20 @@ public class DBProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri,  ContentValues values) {
+        long rowId;
         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         switch (URI_MATCHER.match(uri)){
             case TERMS:
-                long rowId = db.insertOrThrow(DBOpenHelper.TABLE_TERM,null,values);
+                rowId = db.insertOrThrow(DBOpenHelper.TABLE_TERM,null, values);
                 getContext().getContentResolver().notifyChange(uri, null);
-                System.out.println("Your provider IS working");
                 return Uri.parse(BASE_PATH + "/" + PATH_TERMS + "/" + rowId);
-        }
 
-        System.out.println("Your provider is not working");
+            case NOTES:
+                rowId = db.insertOrThrow(DBOpenHelper.TABLE_NOTES, null, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return Uri.parse(BASE_PATH + "/" + PATH_NOTES + "/" + rowId);
+        }
         return null;
     }
 

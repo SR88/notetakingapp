@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".NewCourse">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,13 +86,13 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:layout_margin="4dp"
+                android:gravity="center">
 
                 <CheckBox
                     android:id="@+id/checkBox_NewCourse_AlertDueDate"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".5"
                     android:text="Enable Alerts For Dates Above" />
 
             </TableRow>
@@ -126,11 +121,12 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:layout_margin="4dp"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView_NewCourse_MentorsPrompt"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mentors"
                     android:textAlignment="center"
@@ -140,7 +136,8 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:layout_margin="4dp"
+                android:gravity="center">
 
                 <ListView
                     android:id="@+id/listView_NewCourse_Mentors"
@@ -151,11 +148,12 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:layout_margin="4dp"
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/btn_NewCourse_AddMentor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Add Mentor" />
             </TableRow>
@@ -163,32 +161,28 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:layout_margin="4dp"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textView_NewCourse_NotesPrompt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notes"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
+        </TableLayout>
 
-                <ListView
-                    android:id="@+id/listView__NewCourse_Notes"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableRow>
 
-            <TableRow
+
+            <ListView
+                android:id="@+id/listView_NewCourse_Notes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:layout_height="match_parent" />
+
+
 
                 <Button
                     android:id="@+id/btn_NewCourse_NewNote"
@@ -196,12 +190,6 @@
                     android:layout_height="wrap_content"
                     android:text="New Note" />
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
 
                 <Button
                     android:id="@+id/btn_NewCourse_Save"
@@ -210,12 +198,8 @@
                     android:layout_height="wrap_content"
                     android:text="Button"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
-            </TableRow>
+                    app:layout_constraintStart_toStartOf="parent" />
 
-        </TableLayout>
-    </ScrollView>
 
 
 
