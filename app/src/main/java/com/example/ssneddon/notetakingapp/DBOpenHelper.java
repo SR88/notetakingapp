@@ -57,9 +57,9 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String TERM_END = "term_End" ;
 
     // Course attributes
-    public static final String COURSE_NAME = "course_Name" ;
-    public static final String COURSE_START = "course_Start" ;
-    public static final String COURSE_END = "course_End" ;
+    public static final String COURSE_NAME = DataBaseContract.Course.NAME ;
+    public static final String COURSE_START = DataBaseContract.Course.START ;
+    public static final String COURSE_END = DataBaseContract.Course.END ;
 
     // Status attributes
     public static final String STATUS_STATUS = "status_Status" ;
@@ -99,84 +99,37 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     private static final String createTableMentor =
             CMD_CREATE_TABLE_INE + TABLE_MENTOR + LBR
             + KEY_MENTOR + TYPE_PK_IA + COMA
-            + TERM_NAME + TYPE_TEXT + COMA
-            + TERM_START + TYPE_TEXT_DCTS + COMA
-            + TERM_END + TYPE_TEXT_DCTS
+            + MENTOR_NAME + TYPE_TEXT + COMA
+            + MENTOR_EMAIL + TYPE_TEXT + COMA
+            + MENTOR_PHONE + TYPE_TEXT
             + RBR + SEMICOL;
-
-    private static final String createMentorTable = "CREATE TABLE " + TABLE_MENTOR + " ("
-            + KEY_MENTOR + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + MENTOR_PHONE + " TEXT, "
-            + MENTOR_EMAIL + " TEXT, "
-            + MENTOR_NAME + " TEXT)";
 
     private static final String createCourseTable = "CREATE TABLE " + TABLE_COURSE + " ("
             + KEY_COURSE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COURSE_NAME + " TEXT, "
             + COURSE_START + " TEXT DEFAULT CURRENT_TIMESTAMP, "
             + COURSE_END + " TEXT default CURRENT_TIMESTAMP, "
-            + TABLE_TERM+KEY_TERM + " INTEGER, "
+            + TABLE_TERM+ KEY_TERM + " INTEGER, "
+            + DataBaseContract.Course.NOTE_ID + TYPE_INT + COMA
+            + DataBaseContract.Course.MENTOR_ID + TYPE_INT + COMA
+            + DataBaseContract.Course.EXAM_ID + TYPE_INT + COMA
             + " FOREIGN KEY("+ TABLE_TERM+KEY_TERM + ") REFERENCES " + TABLE_TERM + "(_id)"
+            + FK + LBR + DataBaseContract.Course.NOTE_ID + RBR + REFS + TABLE_NOTES + "(_id)"
+            + FK + LBR + DataBaseContract.Course.MENTOR_ID + RBR + REFS + TABLE_MENTOR + "(_id)"
+            + FK + LBR + DataBaseContract.Course.EXAM_ID + RBR + REFS + TABLE_EXAM + "(_id)"
             + ")";
-
-    private static final String createExamTypeTable = "CREATE TABLE " + TABLE_EXAMTYPE + " ("
-            + KEY_EXAMTYPE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + EXAMTYPE_TYPE + " TEXT)";
 
     private static final String createExamTable = "CREATE TABLE " + TABLE_EXAM + " ("
             + KEY_EXAM + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + EXAM_CODE + " TEXT, "
-            + EXAM_DUE_DATE + " TEXT default CURRENT_TIMESTAMP, "
-            + TABLE_COURSE+KEY_COURSE + " INTEGER, "
-            + TABLE_EXAMTYPE+KEY_EXAMTYPE + " INTEGER, "
-            + " FOREIGN KEY("+ TABLE_COURSE+KEY_COURSE + ") REFERENCES " + TABLE_COURSE + "("+KEY_COURSE+"), "
-            + " FOREIGN KEY("+ TABLE_EXAMTYPE+KEY_EXAMTYPE + ") REFERENCES " + TABLE_EXAMTYPE + "("+KEY_EXAMTYPE+")"
-            + ")";
-
-    private static final String createStatusTable = "CREATE TABLE " + TABLE_STATUS + " ("
-            + KEY_STATUS + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + STATUS_STATUS + " TEXT)";
+            + EXAM_DUE_DATE + " TEXT default CURRENT_TIMESTAMP)";
 
     private static final String createNotesTable = "CREATE TABLE " + TABLE_NOTES + " ("
             + KEY_NOTE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NOTES_NOTE + " TEXT, "
-            + TABLE_COURSE+KEY_COURSE + " INTEGER, "
-            + " FOREIGN KEY("+ TABLE_COURSE+KEY_COURSE + ") REFERENCES " + TABLE_COURSE + "("+KEY_COURSE+")"
+            + NOTES_NOTE + " TEXT"
             + ")";
 
-    private static final String createCourseStatusTable = "CREATE TABLE " + TABLE_COURSE_STATUS + " ("
-            + KEY_COURSE_STATUS + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + TABLE_COURSE+KEY_STATUS + " INTEGER, "
-            + TABLE_STATUS+KEY_COURSE + " INTEGER, "
-            + " FOREIGN KEY("+ TABLE_STATUS+KEY_STATUS + ") REFERENCES " + TABLE_STATUS + "("+KEY_STATUS+"), "
-            + " FOREIGN KEY("+ TABLE_COURSE+KEY_COURSE + ") REFERENCES " + TABLE_COURSE + "("+KEY_COURSE+")"
-            + ")";
 
-    private static final String createCourseMentorTable = "CREATE TABLE " + TABLE_COURSE_MENTOR + " ("
-            + KEY_COURSE_MENTOR + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + TABLE_MENTOR+KEY_MENTOR + " INTEGER, "
-            + TABLE_COURSE+KEY_COURSE + " INTEGER, "
-            + " FOREIGN KEY("+ TABLE_MENTOR+KEY_MENTOR + ") REFERENCES " + TABLE_MENTOR + "("+KEY_MENTOR+"), "
-            + " FOREIGN KEY("+ TABLE_COURSE+KEY_COURSE + ") REFERENCES " + TABLE_COURSE + "("+KEY_COURSE+")"
-            + ")";
-
-    private static final String createNotificationTypeTable = "CREATE TABLE " + TABLE_NOTIFICATIONTYPE + " ("
-            + KEY_NOTIFICATIONTYPE + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NOTIFICATIONTYPE_TYPE + "INTEGER,"
-            + NOTIFICATIONTYPE_MESSAGE + "TEXT)";
-
-// TODO DO I NEED TO TIE THIS BACK TO COURSE AND ASSESSMENT?
-    private static final String createNotificationTable = "CREATE TABLE " + TABLE_NOTIFIACTION + " ("
-            + KEY_NOTIFICATION + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NOTIFICATION_DATE + " TEXT default CURRENT_TIMESTAMP, "
-            + NOTIFICATIONTYPE_MESSAGE + " TEXT, "
-            + TABLE_COURSE+KEY_COURSE + " INTEGER, "
-            + TABLE_EXAM+KEY_EXAM + " INTEGER, "
-            + TABLE_EXAMTYPE+KEY_EXAMTYPE + " INTEGER, "
-            + " FOREIGN KEY("+ TABLE_COURSE+KEY_COURSE + ") REFERENCES " + TABLE_COURSE + "("+KEY_COURSE+"), "
-            + " FOREIGN KEY("+ TABLE_EXAM+KEY_EXAM + ") REFERENCES " + TABLE_EXAM + "("+KEY_EXAM+"), "
-            + " FOREIGN KEY("+ TABLE_EXAMTYPE+KEY_EXAMTYPE + ") REFERENCES " + TABLE_EXAMTYPE + "("+KEY_EXAMTYPE+")"
-            + ")";
 
     public DBOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -186,16 +139,16 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // create all tables
         db.execSQL(createTableTerm);
-        db.execSQL(createMentorTable);
+        db.execSQL(createTableMentor);
         db.execSQL(createCourseTable);
-        db.execSQL(createExamTypeTable);
+//        db.execSQL(createExamTypeTable);
         db.execSQL(createExamTable);
-        db.execSQL(createStatusTable);
+//        db.execSQL(createStatusTable);
         db.execSQL(createNotesTable);
-        db.execSQL(createCourseStatusTable);
-        db.execSQL(createCourseMentorTable);
-        db.execSQL(createNotificationTypeTable);
-        db.execSQL(createNotificationTable);
+//        db.execSQL(createCourseStatusTable);
+//        db.execSQL(createCourseMentorTable);
+//        db.execSQL(createNotificationTypeTable);
+//        db.execSQL(createNotificationTable);
     }
 
     @Override
@@ -204,14 +157,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TERM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MENTOR);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAMTYPE);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAMTYPE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAM);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STATUS);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STATUS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE_STATUS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE_MENTOR);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATIONTYPE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFIACTION);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE_STATUS);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSE_MENTOR);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATIONTYPE);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFIACTION);
 
         // create new tables after dropping old
         onCreate(db);
