@@ -68,13 +68,18 @@ public class DataBaseContract {
         public static final String START = "course_Start" ;
         public static final String END = "course_End" ;
         public static final String TERM_ID = "term_id";
+        public static final String NOTE_ID = "note_id";
+        public static final String MENTOR_ID = "mentor_id";
+        public static final String EXAM_ID = "exam_id";
 
+        // todo fix projection
         public static final String[] PROJECTION = new String[]{
                 Course.KEY,
                 Course.NAME,
                 Course.START,
                 Course.END,
                 Course.TERM_ID
+
         };
     }
 
@@ -83,12 +88,10 @@ public class DataBaseContract {
 
         public static final String KEY = "_id";
         public static final String NOTE = "notes_Note";
-        public static final String COURSE_ID = "course_id";
 
         public static final String[] PROJECTION = new String []{
                 Note.KEY,
                 Note.NOTE,
-                Note.COURSE_ID
         };
     }
 

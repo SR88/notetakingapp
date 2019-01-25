@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-public class NoteEditorActivity extends AppCompatActivity {
+public class EditorNoteActivity extends AppCompatActivity {
 
     private String action;
     private EditText editor;
@@ -56,8 +56,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(DBOpenHelper.NOTES_NOTE, noteText);
         Uri noteUri = getContentResolver().insert(DBProvider.CONTENT_URI_NOTES, values);
-        Log.d("NoteEditorActivity", "Inserted Note " + noteUri.getLastPathSegment());
-        Log.d("NoteEditorActivity", "Inserted Note Uri = " + noteUri.toString());
+        Log.d("EditorNoteActivity", "Inserted Note " + noteUri.getLastPathSegment());
+        Log.d("EditorNoteActivity", "Inserted Note Uri = " + noteUri.toString());
 
         // pass back result and row that was inserted
         Intent intent = new Intent();

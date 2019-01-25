@@ -35,7 +35,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".NewCourse" />
-        <activity android:name=".NewMentor" />
+        <activity android:name=".EditorMentorActivity" />
         <activity android:name=".DetailTermView">
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -43,7 +43,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".NewAssessmentActivity" />
-        <activity android:name=".NoteEditorActivity"></activity>
+        <activity android:name=".EditorNoteActivity"></activity>
     </application>
 
 </manifest>

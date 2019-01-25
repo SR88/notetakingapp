@@ -1,15 +1,12 @@
 package com.example.ssneddon.notetakingapp;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.text.TextUtils;
 
 public class DBProvider extends ContentProvider {
 
@@ -31,11 +28,10 @@ public class DBProvider extends ContentProvider {
     // used to indicate that we are updating or looking an existing term
     public static final String CONTENT_TYPE_TERM = "Term";
 
-
-
+    public static final Uri CONTENT_URI_MENTORS = Uri.parse("content://" + AUTHORTIY + "/" + PATH_MENTORS);
     public static final Uri CONTENT_URI_COURSES = Uri.parse("content://" + AUTHORTIY + "/" + PATH_COURSES);
 
-    // for use in passing uri - see onCreate NoteEditorActivity
+    // for use in passing uri - see onCreate EditorNoteActivity
     public static final String CONTENT_ITEM_TYPE = "CourseNote";
     public static final Uri CONTENT_URI_NOTES = Uri.parse("content://" + AUTHORTIY + "/" + PATH_NOTES);
     public static final Uri CONTENT_URI_NOTES_UNBOUND = Uri.parse("content://" + AUTHORTIY + "/" + PATH_NOTES_UNBOUND);
@@ -61,7 +57,7 @@ public class DBProvider extends ContentProvider {
 
     static {
         URI_MATCHER.addURI(AUTHORTIY, BASE_PATH, ALL_RECORDS);
-        URI_MATCHER.addURI(AUTHORTIY, BASE_PATH + "/#" , ONE_RECORD);  // /# means looking for particular record
+        URI_MATCHER.addURI(AUTHORTIY, BASE_PATH + "/#", ONE_RECORD);  // /# means looking for particular record
         URI_MATCHER.addURI(AUTHORTIY, PATH_TERMS, TERMS);
         URI_MATCHER.addURI(AUTHORTIY, PATH_TERMS + "/#", TERMS_ID);
         URI_MATCHER.addURI(AUTHORTIY, PATH_MENTORS, MENTORS);
@@ -70,7 +66,6 @@ public class DBProvider extends ContentProvider {
         URI_MATCHER.addURI(AUTHORTIY, PATH_COURSES + "/#", COURSES_ID);
         URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES, NOTES);
         URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES + "/#", NOTES_ID);
-        URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES + "/#", NOTES_LIST);
         URI_MATCHER.addURI(AUTHORTIY, PATH_NOTES_UNBOUND + "/#", NOTES_LIST);
     }
 
@@ -85,7 +80,7 @@ public class DBProvider extends ContentProvider {
 
 
     @Override
-    public Cursor query(Uri uri,  String[] projection,  String selection,  String[] selectionArgs,  String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // Use sqlitequerybuilder instead of query() method
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
@@ -95,13 +90,13 @@ public class DBProvider extends ContentProvider {
         String id;
 
         int uriType = URI_MATCHER.match(uri);
-        switch(uriType){
+        switch (uriType) {
             case TERMS:
                 queryBuilder.setTables(DBOpenHelper.TABLE_TERM);
                 break;
             case TERMS_ID:
                 queryBuilder.setTables(DBOpenHelper.TABLE_TERM);
-                selection = DBOpenHelper.KEY_TERM + "=" +uri.getLastPathSegment();
+                selection = DBOpenHelper.KEY_TERM + "=" + uri.getLastPathSegment();
                 break;
 
             case COURSES:
@@ -112,7 +107,7 @@ public class DBProvider extends ContentProvider {
                 break;
             case MENTORS_ID:
                 queryBuilder.setTables(DBOpenHelper.TABLE_MENTOR);
-                queryBuilder.appendWhere(DBOpenHelper.KEY_MENTOR + "=" +uri.getLastPathSegment());
+                queryBuilder.appendWhere(DBOpenHelper.KEY_MENTOR + "=" + uri.getLastPathSegment());
                 break;
 
             case NOTES:
@@ -162,13 +157,13 @@ public class DBProvider extends ContentProvider {
 
 
     @Override
-    public Uri insert(Uri uri,  ContentValues values) {
+    public Uri insert(Uri uri, ContentValues values) {
         long rowId;
         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-        switch (URI_MATCHER.match(uri)){
+        switch (URI_MATCHER.match(uri)) {
             case TERMS:
-                rowId = db.insertOrThrow(DBOpenHelper.TABLE_TERM,null, values);
+                rowId = db.insertOrThrow(DBOpenHelper.TABLE_TERM, null, values);
                 getContext().getContentResolver().notifyChange(uri, null);
                 return Uri.parse(BASE_PATH + "/" + PATH_TERMS + "/" + rowId);
 
@@ -176,18 +171,24 @@ public class DBProvider extends ContentProvider {
                 rowId = db.insertOrThrow(DBOpenHelper.TABLE_NOTES, null, values);
                 getContext().getContentResolver().notifyChange(uri, null);
                 return Uri.parse(BASE_PATH + "/" + PATH_NOTES + "/" + rowId);
+
+            case MENTORS:
+                rowId = db.insertOrThrow(DBOpenHelper.TABLE_MENTOR, null, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return Uri.parse(BASE_PATH + "/" + PATH_MENTORS + "/" + rowId);
+
         }
         return null;
     }
 
     @Override
-    public int delete(Uri uri,  String selection,  String[] selectionArgs) {
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
         DBOpenHelper dbOpenHelper = new DBOpenHelper(getContext());
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         int uriType = URI_MATCHER.match(uri);
         int deletionCount = 0;
 
-        switch(uriType){
+        switch (uriType) {
             case TERMS_ID:
                 String id = uri.getLastPathSegment();
                 return deletionCount = db.delete(
@@ -201,7 +202,7 @@ public class DBProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri,  ContentValues values,  String selection,  String[] selectionArgs) {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
 

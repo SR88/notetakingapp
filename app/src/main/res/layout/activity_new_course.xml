@@ -6,18 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".NewCourse">
 
-        <TableLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView_NewCourse_CourseName"
@@ -36,13 +38,12 @@
                     android:ems="10"
                     android:hint="Course Name"
                     android:inputType="textPersonName" />
+            </LinearLayout>
 
-            </TableRow>
-
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_NewCourse_SetStartDate"
@@ -59,12 +60,12 @@
                     android:text="Start Date"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_NewCourse_SetAntFinish"
@@ -81,26 +82,18 @@
                     android:text="End Date"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
+            <CheckBox
+                android:id="@+id/checkBox_NewCourse_AlertDueDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable Alerts For Dates Above" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:gravity="center">
-
-                <CheckBox
-                    android:id="@+id/checkBox_NewCourse_AlertDueDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Enable Alerts For Dates Above" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/textView_NewCourse_Status"
@@ -116,92 +109,59 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5" />
-            </TableRow>
 
-            <TableRow
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView_NewCourse_NotesPrompt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/textView_NewCourse_MentorsPrompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mentors"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:gravity="center">
-
-                <ListView
-                    android:id="@+id/listView_NewCourse_Mentors"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/btn_NewCourse_AddMentor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add Mentor" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/textView_NewCourse_NotesPrompt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Notes"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-            </TableRow>
-
-        </TableLayout>
+                android:text="Notes"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
-
-            <ListView
+            <com.example.ssneddon.notetakingapp.utilities.NonScrollableListView
                 android:id="@+id/listView_NewCourse_Notes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"/>
 
+            <Button
+                android:id="@+id/btn_NewCourse_NewNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Note" />
 
+            <TextView
+                android:id="@+id/textView_NewCourse_MentorsPrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mentors"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                <Button
-                    android:id="@+id/btn_NewCourse_NewNote"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Note" />
+            <com.example.ssneddon.notetakingapp.utilities.NonScrollableListView
+                android:id="@+id/listView_NewCourse_Mentors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
+            <Button
+                android:id="@+id/btn_NewCourse_AddMentor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Mentor" />
 
-                <Button
-                    android:id="@+id/btn_NewCourse_Save"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-
-
+            <Button
+                android:id="@+id/btn_NewCourse_Save"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
